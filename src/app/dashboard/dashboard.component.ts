@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-dashboard',
@@ -20,6 +21,20 @@ export class DashboardComponent implements OnInit {
   stateData:any
   districtData:any;
   goBack:boolean=true;
+  searchData:any;
+  key:any;
+
+  searchApi(key){
+    console.log(key)
+    this.http.get(this.serverURL+"/covid19/india/"+key).subscribe(res => {
+      if (res) {
+        this.stateData = res;
+      }
+      else {
+        this.stateData = [];
+      }
+    })
+  }
 
  
 
@@ -58,5 +73,6 @@ export class DashboardComponent implements OnInit {
     console.log("Navigating")
 this.route.navigateByUrl("https://www.google.com");
   }
+  
 
 }
