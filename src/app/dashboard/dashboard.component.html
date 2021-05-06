@@ -12,10 +12,11 @@
   
   </div>
 
+  <div class="card my-5" *ngIf="districtData!=null">
+  <button type="button"  (click)="goBackToState();getStateCovidRecords()">Go Back</button>
+  </div>
 
-
-
-<div class="card my-5">
+<div class="card my-5" *ngIf="districtData==null">
     <div class="card-body">
       <table class="table table-bordered table-striped">
         <thead class="thead-dark">
@@ -29,13 +30,41 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let covid of stateData">
+          <tr  *ngFor="let covid of stateData" (click)="getDistrictCovidData(covid)">
             
           <td>{{ covid.state }}</td>
           <td>{{ covid.confirmed }}</td>
           <td>{{ covid.active }}</td>
            <td>{{ covid.recovered }}</td>
             <td>{{ covid.deaths }}</td>
+         
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card my-5" *ngIf="districtData?.length>0">
+    <div class="card-body" >
+      <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+          <tr>
+            
+            <th scope="col">District</th>
+            <th scope="col">Confirmed</th>
+            <th scope="col">Active</th>
+            <th scope="col">Recovered</th>
+            <th scope="col">Deceased</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr  *ngFor="let district of districtData">
+            
+          <td>{{ district.district }}</td>
+          <td>{{ district.confirmed }}</td>
+          <td>{{ district.active }}</td>
+           <td>{{ district.recovered }}</td>
+            <td>{{ district.deceased }}</td>
          
         </tr>
         </tbody>
