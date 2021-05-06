@@ -30,9 +30,9 @@
           </tr>
         </thead>
         <tbody>
-          <tr  *ngFor="let covid of stateData" (click)="getDistrictCovidData(covid)">
+          <tr  *ngFor="let covid of stateData">
             
-          <td>{{ covid.state }}</td>
+          <td class="selectState" (click)="getDistrictCovidData(covid)">{{ covid.state }}</td>
           <td>{{ covid.confirmed }}</td>
           <td>{{ covid.active }}</td>
            <td>{{ covid.recovered }}</td>
@@ -58,7 +58,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr  *ngFor="let district of districtData">
+          <tr class="district" *ngFor="let district of districtData">
             
           <td>{{ district.district }}</td>
           <td>{{ district.confirmed }}</td>
