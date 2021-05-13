@@ -1,0 +1,95 @@
+
+<br>
+<div class="container-fluid mb-5" > 
+<h2>Search Blood</h2>
+    <form [formGroup]="registrationForm" (submit)="getDonarsData()" >
+        <div class="form-group">
+            <label>Blood Group</label>
+            <select name="bloodtype" class="form-control" 
+             formControlName="bloodtype">
+                <option value="" disabled selected hidden>---select bloodgroup---</option>
+                <option *ngFor="let blood of bloodType" value={{blood.BloodType}}>{{blood.BloodType}}</option>
+            </select>
+        </div>
+
+        <div *ngIf="registrationForm.get('bloodtype').invalid &&
+        registrationForm.get('bloodtype').touched">
+        <small *ngIf="registrationForm.controls.bloodtype.errors.required" class="text-danger">Please select your blood group</small>
+        </div>
+
+        <div class="form-group">
+            <label>Country</label>
+            <select name="country" class="form-control" (change)="getstateDetails()" formControlName="country">
+                <option value="" disabled selected hidden>---select country---</option>
+                <option value="India">INDIA</option>
+            </select>
+        </div>
+
+        <div *ngIf="registrationForm.get('country').invalid &&
+        registrationForm.get('country').touched">
+        <small *ngIf="registrationForm.controls.country.errors.required" class="text-danger">Please select your Country</small>
+        </div>
+
+        <div class="form-group">
+            <label>State</label>
+            <select name="state" class="form-control" (change)="getDistrictDetails($event)" formControlName="state">
+                <option value="" disabled selected hidden>---select state---</option>
+                <option *ngFor="let states of stateData" value={{states.StateName}}>{{states.StateName}}</option>
+            </select>
+        </div>
+        <div *ngIf="registrationForm.get('state').invalid &&
+        registrationForm.get('state').touched">
+        <small *ngIf="registrationForm.controls.state.errors.required" class="text-danger">Please select your State</small>
+        </div>
+
+        <div class="form-group">
+            <label>District</label>
+            <select name="district" class="form-control" formControlName="district">
+                <option value="" disabled selected hidden>---select district---</option>
+                <option value="">All</option>
+                <option *ngFor="let districts of districtData" value={{districts.DistrictName}}>
+                    {{districts.DistrictName}}</option>
+            </select>
+        </div>
+
+        <div *ngIf="registrationForm.get('district').invalid &&
+        registrationForm.get('district').touched">
+        <small *ngIf="registrationForm.controls.district.errors.required" class="text-danger">Please select your District</small>
+        </div>
+       
+       <br>
+        <!-- <small *ngIf="!message.success">message.message</small> -->
+        <div class="form-group">
+            <input class="btn btn-success" [disabled]="!registrationForm.valid" type="submit" value="Search">
+        </div>
+    </form>
+    <br>
+    
+
+</div>
+
+
+<div class="card-body" *ngIf="responseData!=null">
+       
+    <table class="table table-bordered table-striped">
+      <thead class="thead-dark">
+        <tr>
+          
+          <th scope="col">Full Name</th>
+          <th scope="col">Blood Group</th>
+          <th scope="col">Mobile Number</th>
+          <th scope="col">Availabilty</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr  *ngFor="let covid of responseData">
+        <td>{{ covid.FullName }}</td>
+        <td>{{ covid.MobileNumber }}</td>
+         <td>{{ covid.BloodGroup }}</td>
+          <td>{{ covid.Availability }}</td>
+       
+      </tr>
+      </tbody>
+    </table>
+</div>
+

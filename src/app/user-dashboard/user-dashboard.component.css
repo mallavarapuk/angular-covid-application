@@ -1,0 +1,9 @@
+form {
+    display: inline-block;
+    width: 300px;
+    padding: inherit;
+    margin: 0 auto;
+}
+h2{
+    padding: inherit;
+}

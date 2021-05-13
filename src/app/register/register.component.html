@@ -1,0 +1,223 @@
+
+<br>
+<div class="container-fluid mb-5" > 
+<h2>Register Here</h2>
+    <form [formGroup]="registrationForm" (submit)="createUserRegistration()" >
+        
+        <div class="form-group">
+            <label>Fullname</label>
+            <input name="fullname" [class.is-invalid]="registrationForm.get('fullname').invalid &&
+            registrationForm.get('fullname').touched"
+             type="text" placeholder="fullname" class="form-control" 
+            formControlName="fullname">
+            
+             <div *ngIf="registrationForm.get('fullname').invalid &&
+             registrationForm.get('fullname').touched">
+             <small *ngIf="registrationForm.controls.fullname.errors.required" class="text-danger">fullname is required</small>
+             <small *ngIf="registrationForm.controls.fullname.hasError('minlength')" class="text-danger">fullname should be minimum 3 characters required</small>
+             <small *ngIf="registrationForm.get('fullname').errors.maxlength" class="text-danger">fullname should not be morethan 50 characters</small>
+
+             </div>
+        </div>
+        
+
+        <div class="form-group">
+            <label>Username</label>
+            <input #username (keyup)="isUserNameExisted(username.value)" name="username" [class.is-invalid]="registrationForm.get('username').invalid &&
+            registrationForm.get('username').touched"
+             formControlName="username"
+            type="text" placeholder="username" class="form-control"  required>
+        </div>
+
+
+        <div *ngIf="registrationForm.get('username').valid &&
+        registrationForm.get('username').touched && !isUserExisted">
+        <small  class="text-danger">{{isUserExistedMessage}}</small>
+        </div>
+
+        <div *ngIf="registrationForm.get('username').invalid &&
+        registrationForm.get('username').touched">
+        <small *ngIf="registrationForm.controls.username.errors.required" class="text-danger">username is required</small>
+        <small *ngIf="registrationForm.controls.username.hasError('minlength')" class="text-danger">username should be minimum 4 characters required</small>
+        <small *ngIf="registrationForm.get('username').errors.maxlength" class="text-danger">username should not be morethan 18 characters</small>
+        
+        
+    </div>
+
+        <div class="form-group">
+            <label>EmailId</label>
+            <input name="emailid"  [class.is-invalid]="registrationForm.get('emailid').invalid &&
+            registrationForm.get('emailid').touched"
+            formControlName="emailid"
+            type="text" placeholder="emailid" class="form-control">
+        </div>
+        <div *ngIf="registrationForm.get('emailid').invalid &&
+        registrationForm.get('emailid').touched">
+        <small *ngIf="registrationForm.controls.emailid.errors.email" class="text-danger">Please enter valid Email address</small>
+      </div>
+
+
+        <div class="form-group">
+            <label>MobileNo</label>
+            <input  name="mobileno" [class.is-invalid]="registrationForm.get('mobileno').invalid &&
+            registrationForm.get('mobileno').touched"
+            formControlName="mobileno" type="text" placeholder="mobileno" class="form-control" required>
+        </div>
+
+        <div *ngIf="registrationForm.get('mobileno').invalid &&
+        registrationForm.get('mobileno').touched">
+        <small *ngIf="registrationForm.controls.mobileno.errors.required" class="text-danger">Mobile No is required</small>
+        <small *ngIf="registrationForm.controls.mobileno.errors.pattern" class="text-danger">Only numbers are allowed</small>
+        <small *ngIf="registrationForm.controls.mobileno.errors.minlength && 
+        !registrationForm.controls.mobileno.errors.pattern" class="text-danger">Mobile Number must be 10 digits</small>
+        </div>
+
+        <div class="form-group">
+            <label>Password</label>
+            <input  name="password" [class.is-invalid]="registrationForm.get('password').invalid &&
+            registrationForm.get('password').touched"
+            formControlName="password" type="password" placeholder="password" class="form-control" required>
+        </div>
+
+        <div *ngIf="registrationForm.get('password').invalid &&
+        registrationForm.get('password').touched">
+        <small *ngIf="registrationForm.controls.password.errors.required" class="text-danger">Password is required</small>
+        <small *ngIf="registrationForm.controls.password.errors.minlength" class="text-danger">Password must be at least 6 characters</small>
+        </div>
+
+
+        <div  class="form-group">
+            <label>Confirm Password</label>
+            <input name="confirmpassword" [class.is-invalid]="registrationForm.get('confirmpassword').invalid &&
+            registrationForm.get('confirmpassword').touched"
+            formControlName="confirmpassword" type="password" placeholder="confirm password" class="form-control" required>
+        </div>
+
+        <div *ngIf="registrationForm.get('confirmpassword').invalid &&
+        registrationForm.get('confirmpassword').touched">
+        <small *ngIf="registrationForm.controls.confirmpassword.errors.required" class="text-danger">Password is required</small>
+        <small *ngIf="registrationForm.controls.confirmpassword.errors.confirmedValidator" class="text-danger">Password must match</small>
+        </div>
+
+        <div class="form-group">
+            <label>Blood Group</label>
+            <select name="bloodtype" class="form-control" 
+             formControlName="bloodtype">
+                <option value="" disabled selected hidden>---select bloodgroup---</option>
+                <option *ngFor="let blood of bloodType" value={{blood.BloodType}}>{{blood.BloodType}}</option>
+            </select>
+        </div>
+
+        <div *ngIf="registrationForm.get('bloodtype').invalid &&
+        registrationForm.get('bloodtype').touched">
+        <small *ngIf="registrationForm.controls.bloodtype.errors.required" class="text-danger">Please select your blood group</small>
+        </div>
+
+        <div class="form-group">
+            <label>Country</label>
+            <select name="country" class="form-control" (change)="getstateDetails()" formControlName="country">
+                <option value="" disabled selected hidden>---select country---</option>
+                <option value="India">INDIA</option>
+            </select>
+        </div>
+
+        <div *ngIf="registrationForm.get('country').invalid &&
+        registrationForm.get('country').touched">
+        <small *ngIf="registrationForm.controls.country.errors.required" class="text-danger">Please select your Country</small>
+        </div>
+
+        <div class="form-group">
+            <label>State</label>
+            <select name="state" class="form-control" (change)="getDistrictDetails($event)" formControlName="state">
+                <option value="" disabled selected hidden>---select state---</option>
+                <option *ngFor="let states of stateData" value={{states.StateName}}>{{states.StateName}}</option>
+            </select>
+        </div>
+        <div *ngIf="registrationForm.get('state').invalid &&
+        registrationForm.get('state').touched">
+        <small *ngIf="registrationForm.controls.state.errors.required" class="text-danger">Please select your State</small>
+        </div>
+
+        <div class="form-group">
+            <label>District</label>
+            <select name="district" class="form-control" formControlName="district">
+                <option value="" disabled selected hidden>---select district---</option>
+                <option value="">All</option>
+                <option *ngFor="let districts of districtData" value={{districts.DistrictName}}>
+                    {{districts.DistrictName}}</option>
+            </select>
+        </div>
+
+        <div *ngIf="registrationForm.get('district').invalid &&
+        registrationForm.get('district').touched">
+        <small *ngIf="registrationForm.controls.district.errors.required" class="text-danger">Please select your District</small>
+        </div>
+        <div>
+       <h5 class="text-danger">{{message}}</h5> 
+    </div>
+       <br>
+        <!-- <small *ngIf="!message.success">message.message</small> -->
+        <div class="form-group">
+            <input class="btn btn-success" [disabled]="!registrationForm.valid" type="submit" value="Register">
+        </div>
+    </form>
+    <br>
+    
+
+</div>
+
+
+
+
+<!-- 
+
+<form #userRegister = "ngForm" (ngSubmit) = "createUserRegistration(userRegister.value)" >
+    <div>
+        <div>
+    <input type = "text" name = "fullname" placeholder = "FullName" #fullnames="ngModel" 
+    [class.is-invalid]="fullnames.invalid && fullnames.touched" required ngModel>
+    <small [class.d-none]="fullnames.valid || fullnames.untouched"></small>
+</div>
+    <br/>
+    <input type = "text" name = "username" placeholder = "UserName" ngModel>
+    <br/>
+
+    <select name = "bloodtype" ngModel>
+        <option value="">---select bloodgroup---</option>
+        <option  *ngFor="let blood of bloodType" 
+        value={{blood.BloodType}}>{{blood.BloodType}}</option>
+    </select>
+    <br>
+
+    <select name = "country" (change)="getstateDetails()" ngModel>
+        <option value="">---select country---</option>
+        <option  value="India">INDIA</option>
+    </select>
+    <br>
+
+    <select name = "state" (change)="getDistrictDetails($event)" ngModel>
+        <option value="">---select state---</option>
+    <option  *ngFor="let states of stateData" 
+     value={{states.StateName}}>{{states.StateName}}</option>
+    </select>
+    <br>
+
+    <select name = "district" ngModel>
+        <option value="">---select district---</option>
+        <option  value=""  >All</option>
+        <option *ngFor="let districts of districtData" value={{districts.DistrictName}} 
+       >{{districts.DistrictName}}</option>
+    </select>
+    <br>
+
+    <input type = "text" name = "mobileno" placeholder = "Mobile No" ngModel>
+    <br/>
+    <input type = "text" name = "emailid" placeholder = "Email Id" ngModel>
+    <br/>
+    <input type = "password" name = "password" placeholder = "password" ngModel>
+    <br/>
+    <input type = "password" name = "repassword" placeholder = "re enter password" ngModel>
+    <br/>
+    <input type = "submit" value = "submit">
+</div>
+ </form> -->

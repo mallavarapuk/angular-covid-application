@@ -71,7 +71,7 @@ export class DashboardComponent implements OnInit {
 
   navigateDetails(){
     console.log("Navigating")
-this.route.navigateByUrl("https://www.google.com");
+this.route.navigate(["user-dashboard"]);
   }
   
 
