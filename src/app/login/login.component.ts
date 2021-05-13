@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
       console.log(res)
       if (res.success) {
         this.response = res.success;
-        // this.route.navigate(['/login']);
+        this.route.navigate(['/dashboard']);
       }
       else {
         this.response = res.success;
