@@ -9,6 +9,7 @@ import { FormsModule,FormGroup,FormControl, Validators, FormBuilder} from '@angu
   styleUrls: ['./user-dashboard.component.css']
 })
 export class UserDashboardComponent implements OnInit {
+  isSuccess:boolean
   responseData:any;
   selectedState:any
   stateData:any
@@ -48,11 +49,13 @@ export class UserDashboardComponent implements OnInit {
         console.log(res)
         if(res.success){
           this.responseData=res.data;
+          this.isSuccess = res.success;
           console.log(this.responseData)
           // this.route.navigate(['/login']);
         }
         else{
           this.responseData=[]
+          this.isSuccess = res.success;
           // this.message = res.message;
         }
       })

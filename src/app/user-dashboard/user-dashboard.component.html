@@ -69,11 +69,15 @@
 </div>
 
 
-<div class="card-body" *ngIf="responseData!=null">
-       
+<div class="card-body" *ngIf="!isSuccess && registrationForm.valid && responseData!=null">
+    <h3 style="text-align: center; background-color: rgb(128, 4, 0); color: white; padding: auto;">Sorry! Donors are not Available</h3><br>
+</div>
+
+<div class="card-body" *ngIf="isSuccess">
+    <h3 style="text-align: center; background-color: green; color: white; padding: auto;">Available Donors</h3><br>
     <table class="table table-bordered table-striped">
       <thead class="thead-dark">
-        <tr>
+        <tr style="background:skyblue; text-align: center;">
           
           <th scope="col">Full Name</th>
           <th scope="col">Blood Group</th>
@@ -84,9 +88,9 @@
       <tbody>
         <tr  *ngFor="let covid of responseData">
         <td>{{ covid.FullName }}</td>
-        <td>{{ covid.MobileNumber }}</td>
-         <td>{{ covid.BloodGroup }}</td>
-          <td>{{ covid.Availability }}</td>
+         <td style="background: red; color: white;">{{ covid.BloodGroup }}</td>
+         <td>{{ covid.MobileNumber }}</td>
+          <td style="background: green; color: white;">{{ covid.Availability }}</td>
        
       </tr>
       </tbody>
